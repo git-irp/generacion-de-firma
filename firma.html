@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/ef88cf4afb.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Tarjeta Personalizada</title>
+    <style>
+      body {
+        font-family: "Montserrat", Arial, sans-serif;
+      }
+      a {
+        color: black;
+      }
+      .card {
+        display: flex;
+        align-items: center;
+        width: 400px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .logo {
+        width: 150px;
+        margin-right: 30px;
+      }
+      .info {
+        flex-grow: 1;
+      }
+      .name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: -15px;
+      }
+      .role {
+        font-size: 14px;
+        margin-bottom: -5px;
+      }
+      .contact {
+        font-size: 12px;
+        margin-bottom: 0px;
+        color: black;
+      }
+      .website {
+        font-size: 12px;
+        color: #0074d9;
+        margin-bottom: 18px;
+      }
+      .textSM {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        color: rgb(0, 0, 0);
+        padding-left: 5px;
+      }
+      .floxSM {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: -20px;
+      }
+      .settings {
+        margin-bottom: 20px;
+      }
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
+      .login-form input {
+        margin: 10px;
+        padding: 10px;
+        width: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Formulario de Login -->
+    <div id="loginContainer" class="login-form">
+      <h2>Iniciar Sesión</h2>
+      <input type="text" id="username" placeholder="Usuario" />
+      <input type="password" id="password" placeholder="Contraseña" />
+      <button onclick="login()">Ingresar</button>
+      <p id="loginError" style="color: red; display: none;">Usuario o contraseña incorrectos</p>
+    </div>
+
+    <!-- Configuración de redes sociales -->
+    <div class="settings" style="display: none;" id="settingsContainer">
+      <h3>Selecciona las redes sociales a mostrar:</h3>
+      <label>
+        <input type="checkbox" id="facebookCheckbox" onchange="updateSocialMedia()" />
+        Facebook
+      </label>
+      <br />
+      <label>
+        <input type="checkbox" id="instagramCheckbox" onchange="updateSocialMedia()" />
+        Instagram
+      </label>
+      <br />
+      <label>
+        <input
+          type="checkbox"
+          id="periodismoCheckbox"
+          onchange="updateSocialMedia()"
+        />
+        Instagram Periodismo
+      </label>
+    </div>
+
+    <!-- Tarjeta de la firma -->
+    <div class="card" id="cardContainer" style="display: none;">
+      <img class="logo" src="./src/img/ColegioRiver-logo.png" alt="Logo" />
+
+      <div class="info">
+        <p class="name">Daniel Duarte</p>
+        <p class="role">Sistemas</p>
+        <p class="contact">
+          Av. Figueroa Alcorta 7597 C1428BCL Buenos Aires, Argentina
+        </p>
+        <p class="contact" id="phone1" style="display: none;"></p>
+        <p class="contact" id="phone2" style="display: none;"></p>
+
+        <!-- Contenedor de redes sociales dinámicas -->
+        <div id="socialMediaContainer"></div>
+
+        <p class="website">
+          <a href="https://riverplate.edu.ar/">www.riverplate.edu.ar</a>
+        </p>
+      </div>
+    </div>
+
+    <button onclick="customizeCard()">Personalizar Tarjeta</button>
+
+    <script>
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Usuarios y contraseñas válidos
+        const users = [
+          { username: "inicial", password: "1n1c14l" },
+          { username: "primaria", password: "PriMariA" },
+          { username: "secundario", password: "SECundario" },
+          { username: "test", password: "test" },
+        ];
+
+        const user = users.find(
+          (user) => user.username === username && user.password === password
+        );
+
+        if (user) {
+          document.getElementById("loginContainer").style.display = "none";
+          document.getElementById("settingsContainer").style.display = "block";
+          document.getElementById("cardContainer").style.display = "flex"; // Cambio de none a flex
+        } else {
+          document.getElementById("loginError").style.display = "block";
+        }
+      }
+
+      function updateSocialMedia() {
+        const container = document.getElementById("socialMediaContainer");
+        container.innerHTML = "";
+
+        if (document.getElementById("facebookCheckbox").checked) {
+          container.innerHTML +=
+            '<div class="floxSM"><a href="https://www.facebook.com/InstitutoRiver"><i class="fa-brands fa-square-facebook" style="color: #3b5998"></i></a><p class="textSM"><a href="https://www.facebook.com/InstitutoRiver" target="_blank">/InstitutoRiver</a></p></div>';
+        }
+
+        if (document.getElementById("instagramCheckbox").checked) {
+          container.innerHTML +=
+            '<div class="floxSM"><a href="https://www.instagram.com/institutoriverplate/"><i class="fa-brands fa-square-instagram" style="color: #ca0202"></i></a><p class="textSM"><a href="https://www.instagram.com/institutoriverplate/" target="_blank">/institutoriverplate</a></p></div>';
+        }
+
+        if (document.getElementById("periodismoCheckbox").checked) {
+          container.innerHTML +=
+            '<div class="floxSM"><a href="https://www.instagram.com/periodismoenriver/"><i class="fa-brands fa-square-instagram" style="color: #ca0202"></i></a><p class="textSM"><a href="https://www.instagram.com/periodismoenriver/" target="_blank">/periodismoenriver</a></p></div>';
+        }
+      }
+
+      function customizeCard() {
+        const name = prompt("Ingresa tu nombre:");
+        const role = prompt("Ingresa tu cargo:");
+        const phone1 = prompt("Ingresa tu número de teléfono:");
+        const phone2 = prompt("Ingresa tu número de teléfono (opcional):");
+
+        document.querySelector(".name").textContent = name;
+        document.querySelector(".role").textContent = role;
+
+        const phone1Element = document.getElementById("phone1");
+        const phone2Element = document.getElementById("phone2");
+
+        if (phone1) {
+          phone1Element.textContent = "Teléfono: " + phone1;
+          phone1Element.style.display = "block";
+        } else {
+          phone1Element.style.display = "none";
+        }
+
+        if (phone2) {
+          phone2Element.textContent = "Celular: " + phone2;
+          phone2Element.style.display = "block";
+        } else {
+          phone2Element.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
